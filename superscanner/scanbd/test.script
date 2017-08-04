@@ -1,0 +1,9 @@
+#!/bin/bash
+# look in scanbd.conf for environment variables
+
+logger -t "scanbd: $0" "Begin of $SCANBD_ACTION for device $SCANBD_DEVICE"
+
+# printout all env-variables
+(/usr/bin/printenv; echo "me $0 $@: Begin of $SCANBD_ACTION for device $SCANBD_DEVICE")  > /tmp/scanbd.script.env
+
+logger -t "scanbd: $0" "End   of $SCANBD_ACTION for device $SCANBD_DEVICE"

@@ -1,0 +1,25 @@
+#!/bin/bash
+# look in scanbd.conf for environment variables
+
+sleep 5s
+logger -t "scanbd: $0" "Begin of $SCANBD_ACTION for device $SCANBD_DEVICE"
+
+# printout all env-variables
+/usr/bin/printenv > /tmp/scanbd.script.scan
+
+# auto mount usb stick
+chown -R pi:pi /mnt/usbstick
+mount /dev/sda1 /mnt/usbstick -o uid=pi,gid=pi && \
+find /home/pi/prints -type f -name "*.tiff" -exec rm "$f" {} +
+cp -R "/home/pi/prints/" "/mnt/usbstick/" && \
+umount /dev/sda1
+
+# copy files to usb
+
+# deleting attachements
+sleep 10s
+find /home/pi/prints -type f -name "*.tiff" -exec rm "$f" {} +
+find /home/pi/prints -type f -name "*.jpg" -exec rm "$f" {} +
+
+
+logger -t "scanbd: $0" "End of $SCANBD_ACTION for device $SCANBD_DEVICE"

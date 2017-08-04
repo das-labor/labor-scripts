@@ -1,0 +1,16 @@
+#!/bin/bash
+# look in scanbd.conf for environment variables
+
+logger -t "scanbd: $0" "Begin of $SCANBD_ACTION for device $SCANBD_DEVICE"
+
+# printout all env-variables
+/usr/bin/printenv > /tmp/scanbd.script.scan
+
+today_file="/home/pi/prints/`date +%Y%m%d%H%M`.tiff"
+/usr/bin/scanimage --resolution 150 \
+--format=tiff \
+-y 297 -x 215 > $today_file \
+&& \
+find /home/pi/prints -maxdepth 1 -iname '*.tiff' -type f -exec convert -verbose "{}" "{}.jpg" \;
+
+logger -t "scanbd: $0" "End   of $SCANBD_ACTION for device $SCANBD_DEVICE"
