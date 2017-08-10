@@ -5,7 +5,7 @@ logger -t "scanbd: $0" "Begin of $SCANBD_ACTION for device $SCANBD_DEVICE"
 
 /usr/bin/printenv > /tmp/scanbd.script.scan
 
-bash /home/pi/labor-scripts/usb-display/display.sh "Scan wird" "durchgeführt..."
+bash /home/pi/labor-scripts/usb-display/display.sh "Scan laeuft." "Warten..."
 
 today_file="/home/pi/prints/`date +%Y%m%d%H%M`.tiff"
 /usr/bin/scanimage --resolution 150 \
@@ -14,6 +14,6 @@ today_file="/home/pi/prints/`date +%Y%m%d%H%M`.tiff"
 && \
 find /home/pi/prints -maxdepth 1 -iname '*.tiff' -type f -exec convert -verbose "{}" "{}.jpg" \;
 
-bash /home/pi/labor-scripts/usb-display/display.sh "### Scan" "erfolgreich ###"
+bash /home/pi/labor-scripts/usb-display/display.sh "## Scan war" "erfolgreich ##"
 
 logger -t "scanbd: $0" "End   of $SCANBD_ACTION for device $SCANBD_DEVICE"

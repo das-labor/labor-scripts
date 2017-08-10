@@ -20,7 +20,7 @@ bash /home/pi/labor-scripts/usb-display/display.sh "Datei wurde" "kopiert."
 # deleting attachements
 sleep 10s
 
-bash /home/pi/labor-scripts/usb-display/display.sh "### Scanner" "einsatzbereit ###"
+bash /home/pi/labor-scripts/usb-display/display.sh "## Scanner" "einsatzbereit ##"
 
 find /home/pi/prints -type f -name "*.tiff" -exec rm "$f" {} +
 find /home/pi/prints -type f -name "*.jpg" -exec rm "$f" {} +
