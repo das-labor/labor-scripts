@@ -1,8 +1,6 @@
 #!/bin/bash
 # look in scanbd.conf for environment variables
 
-sleep 20s
-
 logger -t "scanbd: $0" "Begin of $SCANBD_ACTION for device $SCANBD_DEVICE"
 
 # printout all env-variables
@@ -21,10 +19,14 @@ echo 'Im Labor wurden die folgenden angehängten Dokumente eingescannt.' | mailx
 $( printf -- '-a %q ' /home/pi/prints/*.jpg ) \
 vorstand@das-labor.org
 
+# display information on usb-display
+bash /home/pi/labor-scripts/usb-display/display.sh "eMail an vorstand" "versendet."
+
 # deleting attachements
 sleep 10s
 find /home/pi/prints -type f -name "*.tiff" -exec rm "$f" {} +
 find /home/pi/prints -type f -name "*.jpg" -exec rm "$f" {} +
 
+bash /home/pi/labor-scripts/usb-display/display.sh "### Scanner" "einsatzbereit ###"
 
 logger -t "scanbd: $0" "End of $SCANBD_ACTION for device $SCANBD_DEVICE"
