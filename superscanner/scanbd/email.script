@@ -6,29 +6,39 @@ logger -t "scanbd: $0" "Begin of $SCANBD_ACTION for device $SCANBD_DEVICE"
 # printout all env-variables
 /usr/bin/printenv > /tmp/scanbd.script.scan
 
-bash /home/pi/labor-scripts/usb-display/display.sh "Mail-Konto" "einloggen."
-
-# send mail with attachements
-echo 'Im Labor wurden die folgenden angehängten Dokumente eingescannt.' | mailx -v \
--r "Scanner <pi@das-labor.org>" \
--S smtp="das-labor.org:25" \
--S smtp-use-starttls \
--S smtp-auth=login \
--S smtp-auth-user="email@email.robot" \
--S smtp-auth-password="this-is-a-really-unsecure-password" \
--S ssl-verify=ignore \
--s "Scan vom `date +%d.%m.%y` um `date +%H:%M`" \
-$( printf -- '-a %q ' /home/pi/prints/*.jpg ) \
-vorstand@das-labor.org
-
-# display information on usb-display
-bash /home/pi/labor-scripts/usb-display/display.sh "Mail an vorstand" "versendet."
-
-# deleting attachements
-sleep 10s
-find /home/pi/prints -type f -name "*.tiff" -exec rm "$f" {} +
-find /home/pi/prints -type f -name "*.jpg" -exec rm "$f" {} +
-
-bash /home/pi/labor-scripts/usb-display/display.sh "## Scanner" "einsatzbereit ##"
+# check if network and server is available
+STATE=$(ping -q -w 1 -c 1 das-labor.org > /dev/null && echo ok || echo error)
+if [  $STATE == "error" ]; then
+  bash /home/pi/labor-scripts/usb-display/display.sh '* Netzwerk nicht' 'erreichbar *'
+  sleep 5s
+  bash /home/pi/labor-scripts/usb-display/display.sh '# Netzwerk wieder' '-herstellen #'
+  sleep 5s
+  bash /home/pi/labor-scripts/usb-display/display.sh '# Nochmals eMail-' 'Taste druecken #'
+else
+  bash /home/pi/labor-scripts/usb-display/display.sh "Mail-Konto" "einloggen."
+  
+  # send mail with attachements
+  echo 'Im Labor wurden die folgenden angehängten Dokumente eingescannt.' | mailx -v \
+  -r "Scanner <pi@das-labor.org>" \
+  -S smtp="das-labor.org:25" \
+  -S smtp-use-starttls \
+  -S smtp-auth=login \
+  -S smtp-auth-user="email@email.robot" \
+  -S smtp-auth-password="this-is-a-really-unsecure-password" \
+  -S ssl-verify=ignore \
+  -s "Scan vom `date +%d.%m.%y` um `date +%H:%M`" \
+  $( printf -- '-a %q ' /home/pi/prints/*.jpg ) \
+  vorstand@das-labor.org
+  
+  # display information on usb-display
+  bash /home/pi/labor-scripts/usb-display/display.sh "Mail an vorstand" "versendet."
+  
+  # deleting attachements
+  sleep 10s
+  find /home/pi/prints -type f -name "*.tiff" -exec rm "$f" {} +
+  find /home/pi/prints -type f -name "*.jpg" -exec rm "$f" {} +
+  
+  bash /home/pi/labor-scripts/usb-display/display.sh "## Scanner" "einsatzbereit ##"
+fi
 
 logger -t "scanbd: $0" "End of $SCANBD_ACTION for device $SCANBD_DEVICE"
