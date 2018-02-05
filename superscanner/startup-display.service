@@ -1,0 +1,12 @@
+[Unit]
+Description=Show Startup-Message for USB LCD display
+
+After=multi-user.target
+
+[Service]
+ExecStart=<direct-path of>labor-scripts/usb-display/display.sh "Scanner bereit!"
+Type=oneshot
+
+[Install]
+WantedBy=multi-user.target
+
