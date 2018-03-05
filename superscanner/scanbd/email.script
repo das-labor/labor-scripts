@@ -6,6 +6,8 @@ logger -t "scanbd: $0" "Begin of $SCANBD_ACTION for device $SCANBD_DEVICE"
 # printout all env-variables
 /usr/bin/printenv > /tmp/scanbd.script.scan
 
+bash /home/pi/labor-scripts/usb-display/display.sh '* Netzwerk wird' 'geprüft... *'
+sleep 10s
 # check if network and server is available
 STATE=$(ping -q -w 1 -c 1 das-labor.org > /dev/null && echo ok || echo error)
 if [  $STATE == "error" ]; then
