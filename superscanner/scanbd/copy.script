@@ -6,7 +6,7 @@ logger -t "scanbd: $0" "Begin of $SCANBD_ACTION for device $SCANBD_DEVICE"
 
 /usr/bin/printenv > /tmp/scanbd.script.scan
 
-bash /home/pi/labor-scripts/usb-display/display.sh "USB-Stick wird" "eingehangen..."
+bash /opt/labor-scripts/usb-display/display.sh "USB-Stick wird" "eingehangen..."
 
 # auto mount usb stick
 chown -R pi:pi /mnt/usbstick
@@ -15,12 +15,12 @@ find /home/pi/prints -type f -name "*.tiff" -exec rm "$f" {} +
 cp -R "/home/pi/prints/" "/mnt/usbstick/" && \
 umount /dev/sda1
 
-bash /home/pi/labor-scripts/usb-display/display.sh "Datei wurde" "kopiert."
+bash /opt/labor-scripts/usb-display/display.sh "Datei wurde" "kopiert."
 
 # deleting attachements
 sleep 10s
 
-bash /home/pi/labor-scripts/usb-display/display.sh "## Scanner" "einsatzbereit ##"
+bash /opt/labor-scripts/usb-display/display.sh "## Scanner" "einsatzbereit ##"
 
 find /home/pi/prints -type f -name "*.tiff" -exec rm "$f" {} +
 find /home/pi/prints -type f -name "*.jpg" -exec rm "$f" {} +
