@@ -14,6 +14,11 @@ cp -R /etc/sane.d/* /etc/scanbd
 echo '==> creating "/home/pi/prints'
 chown pi:pi -R /home/pi/prints
 mkdir /home/pi/prints
+chmod g+w /home/pi/prints
+echo '==> setting perms for user "saned"'
+mkdir /var/lib/saned
+chown saned:saned /var/lib/saned
+adduser saned dialout
 cp -R /opt/labor-scripts/superscanner/scanbd/scanbd.conf /etc/scanbd/scanbd.conf
 echo '==> in 10 seconds we will test the scanning'
 sleep 5s
