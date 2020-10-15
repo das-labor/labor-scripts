@@ -1,7 +1,7 @@
 #!/bin/bash
 
 echo '==> install needed packages'
-apt install console-data scanbd sane imagemagick git s-nail vim
+apt install console-data scanbd sane-utils imagemagick git s-nail vim
 echo '==> set keyboard to de-latin1'
 loadkeys de-latin1
 echo '==> comment any not needed scanner types and "net"'
@@ -18,7 +18,7 @@ chmod g+w /home/pi/prints
 echo '==> setting perms for user "saned"'
 mkdir /var/lib/saned
 chown saned:saned /var/lib/saned
-adduser saned dialout
+adduser saned dialout scanner
 cp -R /opt/labor-scripts/superscanner/scanbd/scanbd.conf /etc/scanbd/scanbd.conf
 echo '==> in 10 seconds we will test the scanning'
 sleep 5s

@@ -20,23 +20,31 @@ else
   bash /opt/labor-scripts/usb-display/display.sh "Mail-Konto" "einloggen."
   
   # send mail with attachements
-  echo 'Im Labor wurden die folgenden angehängten Dokumente eingescannt.' | s-nail -v \
+  (echo 'Im Labor wurden die folgenden angehängten Dokumente eingescannt.' | s-nail -v \
   -r "Scanner <pi@das-labor.org>" \
   -S v15-compat \
   -S smtp-use-starttls \
   -S smtp-auth=login \
   -S mta="submission://<URL ESCAPED USERNAME>:<PASSPHRASE>@das-labor.org" \
+  -S ttycharset=utf-8 \
+  -S sendcharset=de_DE.UTF-8 \
   -s "Scan vom `date +%d.%m.%y` um `date +%H:%M`" \
   $( printf -- '-a %q ' /home/pi/prints/*.jpg ) \
   d2ns@das-labor.org
-  
-  # display information on usb-display
-  bash /opt/labor-scripts/usb-display/display.sh "Mail an vorstand" "versendet."
+  );
+
+  # display information on usb-display, if mail is (not) send
+  if [ $? -eq 0 ]
+  then
+    bash /opt/labor-scripts/usb-display/display.sh "Mail an vorstand" "versendet."
+  else
+    bash /opt/labor-scripts/usb-display/display.sh "Mailversand" "fehlgeschlagen."
+  fi
   
   # deleting attachements
   sleep 10s
-  find /home/pi/prints -type f -name "*.tiff" -exec rm "$f" {} +
-  find /home/pi/prints -type f -name "*.jpg" -exec rm "$f" {} +
+  find /home/pi/prints -type f -name "*.tiff" -exec rm -f "$f" {} +
+  find /home/pi/prints -type f -name "*.jpg" -exec rm -f "$f" {} +
   
   bash /opt/labor-scripts/usb-display/display.sh "## Scanner" "einsatzbereit ##"
 fi
