@@ -15,11 +15,11 @@ if [  $STATE == "error" ]; then
   sleep 5s
   bash /opt/labor-scripts/usb-display/display.sh '# Netzwerk wieder' '-herstellen #'
   sleep 5s
-  bash /opt/labor-scripts/usb-display/display.sh '# Nochmals eMail-' 'Taste druecken #'
+  bash /opt/labor-scripts/usb-display/display.sh '# Nochmals E-Mail-' 'Taste druecken #'
 else
   bash /opt/labor-scripts/usb-display/display.sh "Mail-Konto" "einloggen."
   
-  # send mail with attachements
+  # send mail with attachments
   (echo 'Im Labor wurden die folgenden angehängten Dokumente eingescannt.' | s-nail -v \
   -r "Scanner <pi@das-labor.org>" \
   -S v15-compat \
@@ -36,12 +36,12 @@ else
   # display information on usb-display, if mail is (not) send
   if [ $? -eq 0 ]
   then
-    bash /opt/labor-scripts/usb-display/display.sh "Mail an vorstand" "versendet."
+    bash /opt/labor-scripts/usb-display/display.sh "Mail an Vorstand" "versendet."
   else
     bash /opt/labor-scripts/usb-display/display.sh "Mailversand" "fehlgeschlagen."
   fi
   
-  # deleting attachements
+  # deleting attachments
   sleep 10s
   find /home/pi/prints -type f -name "*.tiff" -exec rm -f "$f" {} +
   find /home/pi/prints -type f -name "*.jpg" -exec rm -f "$f" {} +
